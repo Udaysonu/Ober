@@ -1,0 +1,13 @@
+create_table("drivers") {
+  t.Column("driver_id", "string", {"primary":true})
+  t.Column("first_name", "string", {})
+  t.Column("middle_name", "string", {"null": true,"default":""})
+  t.Column("last_name", "string", {"null": true,"default":""})
+  t.Column("email", "string", {})
+  t.Column("age", "integer", {"default": 0})
+  t.Column("phone_number", "integer", {})
+  t.Column("password", "string", {})
+  t.Column("latitude", "float", {"null": true})
+  t.Column("longitude", "float", {"null": true})
+  t.Column("bio", "text", {"null": true})
+}
