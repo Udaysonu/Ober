@@ -1,0 +1,12 @@
+nodemon --watch './*' --signal SIGTERM --exec 'go' run cmd/web/main.go
+
+go test -cover
+
+go test -coverprofile=coverage ; go tool cover -html=coverage
+
+
+
+soda generate fizz CreateUserTable
+
+soda migrate
+soda migrate down
