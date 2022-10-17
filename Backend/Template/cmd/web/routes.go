@@ -18,7 +18,7 @@ func routes(app *config.AppConfig, db *driver.DB)http.Handler{
 	mux.Use(middleware.Logger)
 	mdlrRepo:=mdlr.NewMiddleware(app)
 	mdlr.NewRepo(mdlrRepo)
-	mux.Use(mdlrRepo.NoSurf)
+	// mux.Use(mdlrRepo.NoSurf)
 	mux.Use(mdlrRepo.CheckMiddleware)
 	mux.Use(mdlrRepo.LoadAndSave)
 
@@ -26,8 +26,10 @@ func routes(app *config.AppConfig, db *driver.DB)http.Handler{
 	helpers.NewHelpers(&appConfig)
 
 	handlers.NewRepo(repo)
-	mux.Get("/",handlers.Repo.Health)
-	mux.Get("/register",handlers.Repo.AddDriver)
+	mux.Post("/post",handlers.Repo.PostTest)
+	mux.Post("/register",handlers.Repo.CheckPostRequest)
 	mux.Get("/drivers",handlers.Repo.GetDrivers)
+	mux.Get("/",handlers.Repo.Health)
+
 	return mux
 }

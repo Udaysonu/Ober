@@ -1,0 +1,20 @@
+syntax = "proto3";
+package grpc_proto;
+
+
+option go_package = "github.com/udaysonu/ober/grpc_proto";
+
+message GreetRequest{
+    string first_name = 1;
+}
+
+message GreetResponse{
+    string result = 1;
+}
+
+service GreetService{
+    rpc Greet(GreetRequest) returns (GreetResponse);
+    rpc GreetManyTimes(GreetRequest) returns (stream GreetResponse);
+    rpc LongGreet (stream GreetRequest)returns (GreetResponse);
+    rpc GreetEveryone (stream GreetRequest) returns (GreetResponse);
+}

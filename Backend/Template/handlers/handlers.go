@@ -3,7 +3,8 @@ package handlers
 import (
 	"fmt"
 	"net/http"
-
+	"encoding/json"
+	"github.com/albrow/forms"
 	"github.com/udaysonu/ober/config"
 	"github.com/udaysonu/ober/driver"
 	"github.com/udaysonu/ober/models"
@@ -43,4 +44,57 @@ func (m *Repository) AddDriver(w http.ResponseWriter, r *http.Request) {
 
 func (m *Repository) GetDrivers(w http.ResponseWriter, r *http.Request) {
 	m.SqlDB.AllUsers()
+}
+
+func (m *Repository) PostTest(w http.ResponseWriter, r *http.Request) {
+	decoder := json.NewDecoder(r.Body)
+    var t models.Driver
+    err := decoder.Decode(&t)
+    if err != nil {
+        panic(err)
+    }
+    fmt.Println(t)
+
+
+	// sending response in json format
+	out,_:=json.MarshalIndent(t,"","  ")
+	w.Header().Set("Content-Type","application/json")
+
+	w.Write(out)
+	return
+}
+func (m *Repository) CheckSession(w http.ResponseWriter, r *http.Request){
+	res,ok:=m.AppConfig.Session.Get(r.Context(),"session-data").(models.Driver)
+	fmt.Println(res,ok)
+	fmt.Println(m.AppConfig.Session.Get(r.Context(),"session-data"))
+}
+
+func (m *Repository) CheckPostRequest(w http.ResponseWriter, r *http.Request){
+	 	// Parse request data.
+
+		fmt.Println("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&",json.NewDecoder(r.Body))
+	userData, err := forms.Parse(r)
+
+	if err != nil {
+		fmt.Println(err)
+		// Handle err
+		// ...
+	}
+	fmt.Println(userData.Values,err)
+ 	// Validate
+	val := userData.Validator()
+	fmt.Println(userData.Get("first_name"))
+	val.Require("first_name")
+	val.LengthRange("first_name", 4, 16)
+	val.Require("email")
+	val.MatchEmail("email")
+	val.Require("password")
+	val.MinLength("password", 8)
+	// val.Require("confirmPassword")
+	// val.Equal("password", "confirmPassword")
+ 	if val.HasErrors() {
+		 fmt.Println(val.ErrorMap())
+ 	}
+ 
+ 
 }

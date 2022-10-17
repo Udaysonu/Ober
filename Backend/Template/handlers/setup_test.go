@@ -9,12 +9,14 @@ import(
 	mdlr "github.com/udaysonu/ober/middlewares"
 	"net/http"
 	"time"
+	"testing"
+	"os"
 )
 
 var session *scs.SessionManager
 var appConfig config.AppConfig
 
-func goRoutes()*chi.Mux{
+func TestMain(m *testing.M){
 	appConfig.DatabaseName="sql"
 
 	session=scs.New()
@@ -24,6 +26,16 @@ func goRoutes()*chi.Mux{
 	session.Cookie.Secure=false
 	appConfig.Session=session
 
+	repo:=NewTestHandler(&appConfig)
+	helpers.NewHelpers(&appConfig)
+
+	NewRepo(repo)
+	
+	os.Exit(m.Run())
+}
+
+func goRoutes()*chi.Mux{
+
 	mux:=chi.NewRouter()
 	mux.Use(middleware.Logger)
 	mdlrRepo:=mdlr.NewMiddleware(&appConfig)
@@ -32,13 +44,8 @@ func goRoutes()*chi.Mux{
 	mux.Use(mdlrRepo.CheckMiddleware)
 	mux.Use(mdlrRepo.LoadAndSave)
 
-	repo:=NewTestHandler(&appConfig)
-	helpers.NewHelpers(&appConfig)
-
-	NewRepo(repo)
-	
 	mux.Get("/",Repo.Health)
-	mux.Get("/register",Repo.AddDriver)
+	mux.Post("/register",Repo.AddDriver)
 	mux.Get("/drivers",Repo.GetDrivers)
 	return mux
 }

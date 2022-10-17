@@ -1,0 +1,28 @@
+nodemon --watch './*' --signal SIGTERM --exec 'go' run cmd/web/main.go
+
+go test -cover
+
+go test -coverprofile=coverage ; go tool cover -html=coverage
+
+
+
+soda generate fizz CreateUserTable
+
+soda migrate
+soda migrate down
+
+
+----------------------------
+protoc -Igrpc_proto --go_out=. --go_opt=module=github.com/udaysonu/ober --go-grpc_out=. --go-grpc_opt=module=github.com/udaysonu/ober grpc_proto/greet.proto
+
+
+
+
+
+
+
+
+----------------------------
+Jenkins
+
+java -jar jenkins-cli.jar -s http://localhost:8090/ -auth udaysonu:11cd279f242fdca858b1f1d84997e7ed46
