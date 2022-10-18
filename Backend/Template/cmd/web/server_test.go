@@ -1,4 +1,4 @@
-// package main
+package main
 // import (
 // 	"github.com/joho/godotenv"
 // 	"github.com/go-chi/chi/v5"
