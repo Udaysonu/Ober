@@ -1,15 +1,15 @@
-package main
-import (
-	"github.com/joho/godotenv"
-	"github.com/go-chi/chi/v5"
-	"github.com/udaysonu/ober/config"
-	"github.com/udaysonu/ober/driver"
-	"testing"
-	"fmt"
-	"os"
-)
+// package main
+// import (
+// 	"github.com/joho/godotenv"
+// 	"github.com/go-chi/chi/v5"
+// 	"github.com/udaysonu/ober/config"
+// 	"github.com/udaysonu/ober/driver"
+// 	"testing"
+// 	"fmt"
+// 	"os"
+// )
 
-var DB *driver.DB
+// var DB *driver.DB
 
 // func TestRun(t *testing.T){
 // 	godotenv.Load("../../.env")
